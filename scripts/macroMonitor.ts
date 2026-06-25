@@ -1,8 +1,6 @@
 import { FredClient } from "../src/macro/fred";
-import { runMonitor } from "../src/macro/monitor";
-
+import { runMonitor, formatMonitorRows } from "../src/macro/monitor";
 process.loadEnvFile();
-
 async function main() {
   const apiKey = process.env.FRED_API_KEY;
   if (!apiKey) {
@@ -11,8 +9,8 @@ async function main() {
   }
   const fred = new FredClient(apiKey);
   const rows = await runMonitor(fred);
-  console.log("Macro monitor — informational only, not part of scoring:\n");
-  console.table(rows);
+  console.log("Macro monitor — informational only, not part of scoring.");
+  console.log(formatMonitorRows(rows));
 }
 
 main();
