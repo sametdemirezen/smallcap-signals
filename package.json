@@ -8,7 +8,9 @@
     "macro": "tsx scripts/macroCheck.ts",
     "universe": "tsx index.ts",
     "regime": "tsx scripts/macroRegime.ts",
-    "monitor": "tsx scripts/macroMonitor.ts"
+    "monitor": "tsx scripts/macroMonitor.ts",
+    "dip": "tsx scripts/dipMonitor.ts SPY",
+    "dip:rut": "tsx scripts/dipMonitor.ts IWM"
   },
   "keywords": [],
   "author": "",
