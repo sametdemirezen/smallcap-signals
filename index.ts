@@ -2,6 +2,7 @@ import { YahooProvider } from "./src/provider";
 import { evaluateQuality, defaultConfig } from "./src/quality";
 import { loadSeed } from "./src/seed";
 import { cached } from "./src/cache";
+import fs from "node:fs";
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -16,11 +17,12 @@ async function main() {
   });
 
   const reasonCounts = new Map<string, number>();
-  let passed = 0;
+  const passedSymbols: string[] = [];
+
   for (const s of stocks) {
     const q = evaluateQuality(s, defaultConfig);
     if (q.passed) {
-      passed++;
+      passedSymbols.push(s.symbol);
       continue;
     }
     for (const r of q.reasons)
@@ -28,11 +30,19 @@ async function main() {
   }
 
   console.log(
-    `\nUniverse: ${passed}/${stocks.length} passed (${stocks.length - passed} rejected).`,
+    `\nUniverse: ${passedSymbols.length}/${stocks.length} passed (${stocks.length - passedSymbols.length} rejected).`,
   );
   for (const [r, n] of [...reasonCounts].sort((a, b) => b[1] - a[1])) {
     console.log(`  ${String(n).padStart(4)}  ${r}`);
   }
+
+  // Persist the passed universe so the scoring layer can read it.
+  fs.mkdirSync("data", { recursive: true });
+  fs.writeFileSync(
+    "data/universe.json",
+    JSON.stringify(passedSymbols, null, 2),
+  );
+  console.log(`\nWrote ${passedSymbols.length} symbols to data/universe.json`);
 }
 
 main();

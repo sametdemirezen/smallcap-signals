@@ -10,7 +10,9 @@
     "regime": "tsx scripts/macroRegime.ts",
     "monitor": "tsx scripts/macroMonitor.ts",
     "dip": "tsx scripts/dipMonitor.ts SPY",
-    "dip:rut": "tsx scripts/dipMonitor.ts IWM"
+    "dip:rut": "tsx scripts/dipMonitor.ts IWM",
+    "prices": "tsx scripts/buildPrices.ts",
+    "rank:mom": "tsx scripts/rankMomentum.ts"
   },
   "keywords": [],
   "author": "",
